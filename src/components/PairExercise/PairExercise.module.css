@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  min-width: 1024px;
+
+  padding: 25px;
+
+  background-color: var(--gray-lighter-third);
+  box-shadow: var(--box-shadow-medium);
+
+  border-radius: 50px;
+}
