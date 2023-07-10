@@ -1,5 +1,5 @@
-import { ComponentProps } from "react";
 import cn from "classnames";
+import { ComponentProps } from "react";
 
 import styles from "./Question.module.css";
 

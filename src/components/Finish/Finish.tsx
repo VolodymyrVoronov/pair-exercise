@@ -1,8 +1,9 @@
-import { ComponentProps } from "react";
 import cn from "classnames";
+import { ComponentProps } from "react";
+
+import QuestionAnswer from "../QuestionAnswer/QuestionAnswer";
 
 import styles from "./Finish.module.css";
-import QuestionAnswer from "../QuestionAnswer/QuestionAnswer";
 
 type IPair = {
   id: string;
@@ -18,8 +19,6 @@ interface IFinishProps extends ComponentProps<"div"> {
 }
 
 const Finish = ({ pairs, className, ...props }: IFinishProps): JSX.Element => {
-  console.log(pairs);
-
   return (
     <div className={cn(styles.root, className)} {...props}>
       <span className={styles.text}>Well done!!!</span>
