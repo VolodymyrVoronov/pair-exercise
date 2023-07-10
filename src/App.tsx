@@ -50,6 +50,8 @@ const pairs = [
 const App = (): JSX.Element => {
   return (
     <div className={styles.root}>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <PairExercise pairs={pairs} />
     </div>
   );
