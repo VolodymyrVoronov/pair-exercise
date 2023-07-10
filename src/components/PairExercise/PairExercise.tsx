@@ -6,6 +6,7 @@ import shuffleArray from "../../helpers/shuffleArray";
 
 import Answer from "../Answer/Answer";
 import CorrectAnswer from "../CorrectAnswer/CorrectAnswer";
+import Finish from "../Finish/Finish";
 import Question from "../Question/Question";
 
 import styles from "./PairExercise.module.css";
@@ -87,6 +88,10 @@ const PairExercise = ({
     }
   };
 
+  const onResetButtonClick = (): void => {
+    window.location.reload();
+  };
+
   useLayoutEffect(() => {
     setDisplayedQuestion(questionPairs[counter]);
   }, [counter, questionPairs]);
@@ -99,43 +104,62 @@ const PairExercise = ({
 
   return (
     <div className={cn(styles.root, className)} {...props}>
-      {exerciseCompleted ? (
-        <div className={styles.finish}>Done</div>
-      ) : (
-        <>
-          <div className={styles.question}>
-            <AnimatePresence mode="wait" key={displayedQuestion?.id}>
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  scale: 0.75,
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  transition: {
-                    duration: 0.5,
-                  },
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0,
-                  transition: {
-                    duration: 0.5,
-                  },
-                }}
-              >
-                <Question
-                  questionData={displayedQuestion}
-                  className={cn({
-                    [styles["correct-answer-selected"]]: correctAnswer,
-                  })}
-                />
-              </motion.div>
-            </AnimatePresence>
+      <AnimatePresence mode="wait" key={String(exerciseCompleted)}>
+        {exerciseCompleted ? (
+          <motion.div
+            className={styles.finish}
+            initial={{
+              opacity: 0,
+              scale: 0.75,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+          >
+            <Finish pairs={pairs} />
 
-            <AnimatePresence mode="wait">
-              {correctAnswer && (
+            <button
+              onClick={onResetButtonClick}
+              className={styles.button}
+              type="button"
+            >
+              Reset
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{
+              opacity: 0,
+              scale: 0.75,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+          >
+            <div className={styles.question}>
+              <AnimatePresence mode="wait" key={displayedQuestion?.id}>
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -156,19 +180,18 @@ const PairExercise = ({
                     },
                   }}
                 >
-                  <CorrectAnswer correctAnswerData={selectedAnswer} />
+                  <Question
+                    questionData={displayedQuestion}
+                    className={cn({
+                      [styles["correct-answer-selected"]]: correctAnswer,
+                    })}
+                  />
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+              </AnimatePresence>
 
-          <div className={styles.answers}>
-            <AnimatePresence>
-              {answerPairs.map((pair) => {
-                return (
+              <AnimatePresence mode="wait">
+                {correctAnswer && (
                   <motion.div
-                    key={pair.id}
-                    className={styles.answer}
                     initial={{
                       opacity: 0,
                       scale: 0.75,
@@ -178,7 +201,6 @@ const PairExercise = ({
                       scale: 1,
                       transition: {
                         duration: 0.5,
-                        delay: 0.05,
                       },
                     }}
                     exit={{
@@ -186,27 +208,61 @@ const PairExercise = ({
                       scale: 0,
                       transition: {
                         duration: 0.5,
-                        delay: 0.05,
                       },
                     }}
                   >
-                    <Answer
-                      answerData={pair}
-                      onAnswerClick={onAnswerClick}
-                      className={cn({
-                        [styles["answer-correct"]]:
-                          correctAnswer && pair.id === selectedAnswer?.id,
-                        [styles["answer-wrong"]]:
-                          wrongAnswer && pair.id === selectedAnswer?.id,
-                      })}
-                    />
+                    <CorrectAnswer correctAnswerData={selectedAnswer} />
                   </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-        </>
-      )}
+                )}
+              </AnimatePresence>
+            </div>
+
+            <div className={styles.answers}>
+              <AnimatePresence>
+                {answerPairs.map((pair) => {
+                  return (
+                    <motion.div
+                      key={pair.id}
+                      className={styles.answer}
+                      initial={{
+                        opacity: 0,
+                        scale: 0.75,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        scale: 1,
+                        transition: {
+                          duration: 0.5,
+                          delay: 0.05,
+                        },
+                      }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0,
+                        transition: {
+                          duration: 0.5,
+                          delay: 0.05,
+                        },
+                      }}
+                    >
+                      <Answer
+                        answerData={pair}
+                        onAnswerClick={onAnswerClick}
+                        className={cn({
+                          [styles["answer-correct"]]:
+                            correctAnswer && pair.id === selectedAnswer?.id,
+                          [styles["answer-wrong"]]:
+                            wrongAnswer && pair.id === selectedAnswer?.id,
+                        })}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
