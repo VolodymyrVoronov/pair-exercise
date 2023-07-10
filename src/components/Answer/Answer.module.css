@@ -10,7 +10,7 @@
   line-height: 26px;
   font-family: var(--poppins);
 
-  box-shadow: var(--box-shadow-medium);
+  box-shadow: var(--box-shadow-small);
   background-color: var(--gray-lighter);
 
   border-bottom-left-radius: 50px;
@@ -24,5 +24,6 @@
 }
 
 .root:hover {
+  box-shadow: var(--box-shadow-medium);
   background-color: var(--gray-light);
 }
